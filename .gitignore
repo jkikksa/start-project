@@ -1,0 +1,11 @@
+# Add any directories, files, or patterns you don't want to be tracked by version control
+.DS_Store
+.git
+.idea
+node_modules
+npm-debug.log
+.idea/*
+build/
+dist/
+mockups/
+__MACOSX/

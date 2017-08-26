@@ -1,0 +1,5 @@
+mixin field-select(names)
+  .field-select.field-select--no-js
+    select&attributes(attributes).field-select__select
+      each opt in names
+        option.field-select__option= opt

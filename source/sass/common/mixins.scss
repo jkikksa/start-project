@@ -1,0 +1,64 @@
+@mixin list-reset {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+}
+
+@mixin un-visually-hidden {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  clip: auto;
+}
+
+@mixin cross ($width, $color, $hover-color: $color, $thickness: 1px) {
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: $width * 1.41;
+    height: $thickness;
+    background-color: $color;
+    transform: translate(-50%, -50%) rotate(45deg);
+    transition-property: background-color;
+    transition-duration: 0.12s;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: $thickness;
+    height: $width * 1.41;
+    background-color: $color;
+    transform: translate(-50%, -50%) rotate(45deg);
+    transition-property: background-color;
+    transition-duration: 0.12s;
+  }
+
+  &:hover {
+
+    &::before,
+    &::after {
+      background-color: $hover-color;
+    }
+  }
+}

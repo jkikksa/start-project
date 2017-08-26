@@ -1,0 +1,11 @@
+// common
+@import "../../node_modules/normalize.css/normalize";
+@import "common/mixins";
+@import "common/variables";
+@import "common/fonts";
+@import "common/common";
+@import "common/keyframes";
+@import "../../node_modules/slick-carousel/slick/slick.scss";
+
+// blocks
+@import "../blocks/page/page";

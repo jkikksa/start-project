@@ -1,0 +1,7 @@
+mixin field-text(name, inputType)
+  div.field-text
+    - var type = inputType === undefined ? "text": inputType
+    label.field-text__name
+      input(type=type)&attributes(attributes).field-text__input
+      span.field-text__text= name
+      span.field-text__error-message
