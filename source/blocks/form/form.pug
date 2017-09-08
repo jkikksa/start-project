@@ -1,0 +1,14 @@
+.form
+  form.form__form(action="//127.0.0.1:1337" method="post")
+    .form__field
+      +field-text("Имя")(type="text" name="name" required)
+    .form__field
+      +field-text("Телефон")(type="tel" name="phone" pattern="\\+7\\(\\d{3}\\)\\d{3}[\\-]\\d{2}[\\-]\\d{2}" required)
+    .form__field
+      +field-text("Email")(type="email" name="email" required)
+    .form__field.form__field--checkbox
+      +field-checkbox("Готов?")(name="che" required)
+    button.form__button(type="submit") Отправить
+  .form__thanks
+    .form__thanks-message Сообщение отправлено!
+    button.form__button Повторить?

@@ -1,0 +1,60 @@
+.form {
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 200px;
+  padding: 20px 30px;
+  background-color: #ffffff;
+  border: 1px solid #e6e6e6;
+  position: relative;
+
+  &__field {
+    margin-bottom: 10px;
+
+    &--checkbox {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__button {
+    font-size: 13px;
+    font-family: inherit;
+    text-transform: uppercase;
+    line-height: 18px;
+    color: #6b9bc2;
+    color: #ffffff;
+    background-color: #6b9bc2;
+    border: 0;
+    padding: 6px 10px;
+    font-weight: 700;
+
+    &:hover {
+      background-color: #537794;
+    }
+  }
+
+  &__thanks {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 44;
+    left: 0;
+    top: 0;
+    background-color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: none;
+
+    &--visible {
+      display: flex;
+    }
+  }
+
+  &__thanks-message {
+    font-size: 15px;
+    line-height: 18px;
+    margin-bottom: 20px;
+  }
+}

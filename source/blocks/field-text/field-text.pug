@@ -1,7 +1,6 @@
-mixin field-text(name, inputType)
+mixin field-text(name)
   div.field-text
-    - var type = inputType === undefined ? "text": inputType
     label.field-text__name
-      input(type=type)&attributes(attributes).field-text__input
+      input&attributes(attributes).field-text__input
       span.field-text__text= name
       span.field-text__error-message

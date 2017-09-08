@@ -1,8 +1,10 @@
 extends ../layout/layout
+include ../../blocks/field-text/field-text
+include ../../blocks/field-checkbox/field-checkbox
 
 block head
   - var pageTitle = "Start-Project";
   - var pageId = 0;
 
 block content
-  h1 hello world
+  include ../../blocks/form/form

@@ -3,22 +3,31 @@
 
   &__text {
     position: absolute;
-    bottom: 15px;
-    left: 20px;
+    bottom: 10px;
+    left: 0;
     z-index: 3;
     display: block;
     font-weight: 400;
-    font-size: 15px;
+    font-size: 13px;
     line-height: 18px;
     font-family: inherit;
-    color: rgba(255, 255, 255, 0.5);
+    color: #999999;
     transform-origin: left;
     cursor: text;
     transition-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
     transition-duration: 0.15s;
     transition-property: transform;
-    user-select: none;
+    pointer-events: none;
     will-change: transform;
+    width: 100%;
+
+    &::after {
+      content: "Обязательное поле";
+      font-size: 10px;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
   }
 
   &__input {
@@ -26,17 +35,18 @@
     z-index: 2;
     box-sizing: border-box;
     width: 100%;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    padding-left: 20px;
+    padding-top: 21px;
+    padding-bottom: 10px;
+    padding-left: 0;
     padding-right: 20px;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 13px;
     line-height: 18px;
     font-family: inherit;
-    color: #ffffff;
-    background-color: #1c3257;
-    border: 1px solid #334768;
+    color: #000000;
+    background-color: #ffffff;
+    border: 0;
+    border-bottom: 1px solid #e6e6e6;
     border-radius: 0;
     outline: none;
     box-shadow: none;
@@ -49,42 +59,64 @@
     }
 
     &:focus {
-      border-color: #447acc;
+      padding-bottom: 9px;
+      border-bottom: 2px solid #6bace1;
+
+      & + .field-text__text {
+        transform: translateY(-20px);
+      }
+      // & ~ .field-text__error-message {
+      //   transform: translate(60px, -20px) scale(0.9);
+      // }
     }
 
-    &:focus + .field-text__text {
-      transform: translateY(-15px) scale(0.8);
+    &:required {
+
     }
 
-    &[required]:valid + .field-text__text {
-      transform: translateY(-15px) scale(0.8);
+    &:valid + .field-text__text {
+      transform: translateY(-20px);
     }
   }
 
   &__error-message {
     position: absolute;
-    bottom: -20px;
-    left: 20px;
+    bottom: 10px;
+    left: 0;
     z-index: 5;
     font-size: 13px;
-    line-height: 15px;
-    color: rgba(255, 255, 255, 0.5);
+    line-height: 18px;
+    color: #ff2626;
     white-space: normal;
-
-    @media (max-width: $desktop-width) {
-      font-size: 10px;
-    }
+    transition-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+    transition-duration: 0.15s;
+    transition-property: transform;
+    pointer-events: none;
+    will-change: transform;
   }
 
   &--error {
-    margin-bottom: 30px;
 
     .field-text__input {
       border-color: #ff2626;
+
+      &:focus {
+
+        & ~ .field-text__error-message {
+          transform: translate(60px, -20px);
+        }
+      }
     }
 
     .field-text__text {
-      transform: translateY(-15px) scale(0.8);
+      transform: translateY(-20px);
+    }
+  }
+
+  &--fill {
+
+    .field-text__error-message {
+      transform: translate(60px, -20px);
     }
   }
 }

@@ -5,7 +5,7 @@
   "scripts": {
     "build": "gulp build",
     "build:development": "cross-env NODE_ENV=development npm run build",
-    "start": "npm run build:development && gulp serve",
+    "start": "cross-env NODE_ENV=development npm run build && gulp serve",
     "test:style": "stylelint \"source/**/*.scss\" --syntax=scss",
     "test:js": "eslint \"source/**/*.js\"",
     "test": "npm run test:style --silent && npm run test:js --silent",
