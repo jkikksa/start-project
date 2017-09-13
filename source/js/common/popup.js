@@ -1,78 +1,111 @@
 const ESC_KEY_CODE = 27;
-
-let isEscPressed = function (evt) {
+const isEscPressed = (evt) => {
   return evt.keyCode === ESC_KEY_CODE;
 };
 
-/**
- * @param {Object<Element, Element, Function, Function>} options openBtn, closeBtn, cb on popup opened, cb on popup closed
- * @constructor
- */
-let Popup = function (options) {
-  this.openBtn = options.openBtn;
-  this.closeBtn = options.closeBtn;
-  let onPopupOpen = options.onPopupOpen;
-  let onPopupClose = options.onPopupClose;
+const Popup = function (element, options) {
+  this.element = element;
+  this.visibleClass = options.visibleClass;
+  this.openButtons = options.openButtons;
+  this.closeButtons = options.closeButtons;
+  this.onOpen = options.onPopupOpen;
+  this.onClose = options.onPopupClose;
+  this.isOpened = false;
 
-  /**
-   * Close popup if Esc key pressed
-   * @param {KeyboardEvent} evt
-   */
-  let onEscPress = function (evt) {
+  this._onEscPress = (evt) => {
     if (isEscPressed(evt)) {
-      closePopup();
+      this._closePopup();
     }
   };
 
-  let openPopup = function () {
-    document.addEventListener('keydown', onEscPress);
-    onPopupOpen();
+  this._onFreaAreaClicked = (evt) => {
+    Array.prototype.forEach.call(this.openButtons, (it) => {
+      if (!it.contains(evt.target) && !this.element.contains(evt.target)) {
+        evt.preventDefault();
+        this._closePopup();
+      }
+    });
   };
 
-  let closePopup = function () {
-    document.removeEventListener('keydown', onEscPress);
-    onPopupClose();
+  this._onOpenButtonClick = () => {
+    if (!this.isOpened) {
+      this._openPopup();
+    }
   };
 
-  this.openPopup = openPopup;
-  this.closePopup = closePopup;
-
-  this._onOpenBtnClick = function (evt) {
-    evt.preventDefault();
-    openPopup();
+  this._onCloseButtonClick = () => {
+    if (this.isOpened) {
+      this._closePopup();
+    }
   };
 
-  this._onCloseBtnClick = function (evt) {
-    evt.preventDefault();
-    closePopup();
+  this._openPopup = () => {
+    this.element.classList.add(this.visibleClass);
+    document.addEventListener('keydown', this._onEscPress);
+    document.addEventListener('click', this._onFreaAreaClicked);
+    this.isOpened = true;
+
+    if (typeof this.onOpen === 'function') {
+      this.onOpen();
+    }
+  };
+
+  this._closePopup = () => {
+    this.element.classList.remove(this.visibleClass);
+    document.removeEventListener('keydown', this._onEscPress);
+    document.removeEventListener('click', this._onFreaAreaClicked);
+    this.isOpened = false;
+
+    if (typeof this.onClose === 'function') {
+      this.onClose();
+    }
   };
 };
 
-/**
- * popup initialization
- */
 Popup.prototype.init = function () {
-  this.closeBtn.addEventListener('click', this._onCloseBtnClick);
-  this.openBtn.addEventListener('click', this._onOpenBtnClick);
+  if (typeof this.openButtons.length !== 'undefined') {
+    Array.prototype.forEach.call(this.openButtons, (it) => {
+      it.addEventListener('click', this._onOpenButtonClick);
+    });
+  } else {
+    this.openButtons.addEventListener('click', this._onOpenButtonClick);
+  }
+
+  if (typeof this.closeButtons.length !== 'undefined') {
+    Array.prototype.forEach.call(this.closeButtons, (it) => {
+      it.addEventListener('click', this._onCloseButtonClick);
+    });
+  } else {
+    this.closeButtons.addEventListener('click', this._onCloseButtonClick);
+  }
 };
-/**
- * popup destruction
- */
+
 Popup.prototype.destroy = function () {
-  this.closeBtn.removeEventListener('click', this._onCloseBtnClick);
-  this.openBtn.removeEventListener('click', this._onOpenBtnClick);
+  this._closePopup();
+
+  if (typeof this.openButtons.length !== 'undefined') {
+    Array.prototype.forEach.call(this.openButtons, (it) => {
+      it.removeEventListener('click', this._onOpenButtonClick);
+    });
+  } else {
+    this.openButtons.removeEventListener('click', this._onOpenButtonClick);
+  }
+
+  if (typeof this.closeButtons.length !== 'undefined') {
+    Array.prototype.forEach.call(this.closeButtons, (it) => {
+      it.removeEventListener('click', this._onCloseButtonClick);
+    });
+  } else {
+    this.closeButtons.removeEventListener('click', this._onCloseButtonClick);
+  }
 };
-/**
- * method that opens the popup
- */
+
 Popup.prototype.open = function () {
-  this.openPopup();
+  this._openPopup();
 };
-/**
- * method that closes the popup
- */
+
 Popup.prototype.close = function () {
-  this.closePopup();
+  this._closePopup();
 };
 
 module.exports = Popup;
