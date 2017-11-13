@@ -8,9 +8,13 @@ const Popup = function (element, options) {
   this.visibleClass = options.visibleClass;
   this.openButtons = options.openButtons;
   this.closeButtons = options.closeButtons;
+  this.noCloseButtons = typeof options.closeButtons === 'undefined' ? true : false;
+  this.beforeClass = options.beforeClass || 'before';
+  this.afterClass = options.afterClass || 'after';
+  this.transitionTime = options.transitionTime || 200;
+  this.isOpened = false;
   this.onOpen = options.onPopupOpen;
   this.onClose = options.onPopupClose;
-  this.isOpened = false;
 
   this._onEscPress = (evt) => {
     if (isEscPressed(evt)) {
@@ -18,42 +22,50 @@ const Popup = function (element, options) {
     }
   };
 
-  this._onFreaAreaClicked = (evt) => {
-    Array.prototype.forEach.call(this.openButtons, (it) => {
-      if (!it.contains(evt.target) && !this.element.contains(evt.target)) {
-        evt.preventDefault();
-        this._closePopup();
-      }
-    });
-  };
+  this._onOpenButtonClick = (evt) => {
+    evt.preventDefault();
+    const clickedButton = evt.currentTarget;
 
-  this._onOpenButtonClick = () => {
     if (!this.isOpened) {
-      this._openPopup();
+      this._openPopup(clickedButton);
+    } else if (this.noCloseButtons) {
+      this._closePopup();
     }
   };
 
-  this._onCloseButtonClick = () => {
+  this._onCloseButtonClick = (evt) => {
+    evt.preventDefault();
+
     if (this.isOpened) {
       this._closePopup();
     }
   };
 
-  this._openPopup = () => {
+  this._openPopup = (clickedButton) => {
+    this.element.classList.add(this.beforeClass);
+
+    setTimeout(() => {
+      this.element.classList.remove(this.beforeClass);
+    }, this.transitionTime);
+
     this.element.classList.add(this.visibleClass);
     document.addEventListener('keydown', this._onEscPress);
-    document.addEventListener('click', this._onFreaAreaClicked);
     this.isOpened = true;
 
     if (typeof this.onOpen === 'function') {
-      this.onOpen();
+      this.onOpen(clickedButton);
     }
   };
 
   this._closePopup = () => {
-    this.element.classList.remove(this.visibleClass);
+    this.element.classList.add(this.afterClass);
+
+    setTimeout(() => {
+      this.element.classList.remove(this.visibleClass);
+      this.element.classList.remove(this.afterClass);
+    }, this.transitionTime);
+
     document.removeEventListener('keydown', this._onEscPress);
-    document.removeEventListener('click', this._onFreaAreaClicked);
     this.isOpened = false;
 
     if (typeof this.onClose === 'function') {
@@ -63,40 +75,28 @@ const Popup = function (element, options) {
 };
 
 Popup.prototype.init = function () {
-  if (typeof this.openButtons.length !== 'undefined') {
-    Array.prototype.forEach.call(this.openButtons, (it) => {
-      it.addEventListener('click', this._onOpenButtonClick);
-    });
-  } else {
-    this.openButtons.addEventListener('click', this._onOpenButtonClick);
-  }
+  Array.prototype.forEach.call(this.openButtons, (it) => {
+    it.addEventListener('click', this._onOpenButtonClick);
+  });
 
-  if (typeof this.closeButtons.length !== 'undefined') {
+  if (!this.noCloseButtons) {
     Array.prototype.forEach.call(this.closeButtons, (it) => {
       it.addEventListener('click', this._onCloseButtonClick);
     });
-  } else {
-    this.closeButtons.addEventListener('click', this._onCloseButtonClick);
   }
 };
 
 Popup.prototype.destroy = function () {
   this._closePopup();
 
-  if (typeof this.openButtons.length !== 'undefined') {
-    Array.prototype.forEach.call(this.openButtons, (it) => {
-      it.removeEventListener('click', this._onOpenButtonClick);
-    });
-  } else {
-    this.openButtons.removeEventListener('click', this._onOpenButtonClick);
-  }
+  Array.prototype.forEach.call(this.openButtons, (it) => {
+    it.removeEventListener('click', this._onOpenButtonClick);
+  });
 
-  if (typeof this.closeButtons.length !== 'undefined') {
+  if (!this.noCloseButtons) {
     Array.prototype.forEach.call(this.closeButtons, (it) => {
       it.removeEventListener('click', this._onCloseButtonClick);
     });
-  } else {
-    this.closeButtons.removeEventListener('click', this._onCloseButtonClick);
   }
 };
 

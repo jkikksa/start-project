@@ -42,8 +42,10 @@ const svgo = require('gulp-svgo');
 const uglify = require('gulp-uglify');
 // babel with browserify
 const babelify = require('babelify');
+// Combine svg files into one with <symbol> elements.
+const svgstore = require('gulp-svgstore');
 
-const isDev = process.env.NODE_ENV === 'development' ? true : false;
+const isProduction = process.env.NODE_ENV === 'production' ? true : false;
 
 const SRC_FOLDER = 'source';
 const BUILD_FOLDER = 'dist';
@@ -76,6 +78,7 @@ const path = {
     },
     images: {
       svg: SRC_FOLDER + '/img/**/*.svg',
+      sprite: SRC_FOLDER + '/img/sprite/*.svg',
       self: SRC_FOLDER + '/img',
       folder: SRC_FOLDER + '/img/**/*.{png,jpg,gif}',
       root: SRC_FOLDER + '/img/*.{png,jpg,gif,svg}',
@@ -96,7 +99,7 @@ gulp.task('html', function () {
 gulp.task('style', function () {
   return gulp.src(path.src.sass.self)
       .pipe(plumber())
-      .pipe(gulpIf(isDev, sourcemaps.init()))
+      .pipe(gulpIf(!isProduction, sourcemaps.init()))
       .pipe(sass().on('error', sass.logError))
       .pipe(postcss([
         autoprefixer({browsers: [
@@ -117,16 +120,16 @@ gulp.task('style', function () {
           sort: false
         })
       ]))
-      .pipe(gulpIf(isDev, sourcemaps.write()))
+      .pipe(gulpIf(!isProduction, sourcemaps.write()))
       .pipe(gulp.dest(path.build.css))
-      .pipe(gulpIf(!isDev, csso()))
+      .pipe(gulpIf(isProduction, csso()))
       .pipe(rename('style.min.css'))
       .pipe(gulp.dest(path.build.css))
       .pipe(browserSync.stream());
 });
 
 gulp.task('js', function () {
-  return browserify(path.src.js.self, {debug: isDev})
+  return browserify(path.src.js.self, {debug: !isProduction})
       .transform(babelify, {
         presets: ['es2015']
       })
@@ -140,7 +143,7 @@ gulp.task('js', function () {
       .pipe(source('script.js'))
       .pipe(gulp.dest(path.build.js))
       .pipe(buffer())
-      .pipe(gulpIf(!isDev, uglify()))
+      .pipe(gulpIf(isProduction, uglify()))
       .pipe(rename('script.min.js'))
       .pipe(gulp.dest(path.build.js))
       .pipe(browserSync.reload({
@@ -174,6 +177,15 @@ gulp.task('imagemin', function () {
 gulp.task('svgmin', function () {
   return gulp.src(path.src.images.svg)
       .pipe(svgo())
+      .pipe(gulp.dest(path.src.images.self));
+});
+
+gulp.task('svgsprite', function () {
+  return gulp.src(path.src.images.sprite)
+      .pipe(svgstore({
+        inlineSvg: true
+      }))
+      .pipe(rename('sprite.svg'))
       .pipe(gulp.dest(path.src.images.self));
 });
 

@@ -1,21 +1,21 @@
 {
-  "name": "Start-Project",
+  "name": "Izba",
   "version": "1.0.0",
-  "description": "Start-Project",
+  "description": "Izba",
   "scripts": {
     "build": "gulp build",
-    "build:development": "cross-env NODE_ENV=development npm run build",
-    "start": "cross-env NODE_ENV=development npm run build && gulp serve",
+    "build:production": "cross-env NODE_ENV=production npm run build",
+    "start": "npm run build && gulp serve",
     "test:style": "stylelint \"source/**/*.scss\" --syntax=scss",
     "test:js": "eslint \"source/**/*.js\"",
     "test": "npm run test:style --silent && npm run test:js --silent",
     "sort": "postcss \"source/blocks/**/*.scss\" -c postcss.config.js -r",
-    "imagemin": "gulp imagemin"
+    "imagemin": "gulp imagemin && gulp svgmin"
   },
   "author": "Dmitry Rusakov",
   "license": "ISC",
   "devDependencies": {
-    "autoprefixer": "^7.1.2",
+    "autoprefixer": "^7.1.4",
     "babel-preset-es2015": "^6.24.1",
     "babelify": "^7.3.0",
     "browser-sync": "^2.18.13",
@@ -23,7 +23,7 @@
     "cross-env": "^5.0.5",
     "css-mqpacker": "^6.0.1",
     "del": "^3.0.0",
-    "eslint": "^4.5.0",
+    "eslint": "^4.6.1",
     "eslint-config-htmlacademy": "^0.3.0",
     "gulp": "^3.9.1",
     "gulp-csso": "^3.0.0",
@@ -36,23 +36,23 @@
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-svgo": "^1.2.5",
+    "gulp-svgstore": "^6.1.0",
     "gulp-uglify": "^3.0.0",
     "normalize.css": "^7.0.0",
-    "postcss": "^6.0.9",
-    "postcss-cli": "^4.1.0",
+    "postcss": "^6.0.11",
+    "postcss-cli": "^4.1.1",
     "postcss-image-inliner": "^1.0.6",
     "postcss-scss": "^1.0.2",
     "postcss-sorting": "^2.0.1",
     "run-sequence": "^2.1.0",
-    "stylelint": "^8.0.0",
+    "stylelint": "^8.1.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "custom-select": "^1.1.2",
-    "inputmask": "^3.3.8",
     "jquery": "^3.2.1",
     "slick-carousel": "^1.7.1",
+    "inputmask": "^3.3.8",
     "wicg-focus-ring": "^2.0.1"
   }
 }
