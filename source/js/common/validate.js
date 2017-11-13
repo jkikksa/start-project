@@ -1,16 +1,16 @@
 const typeToClassName = {
-  'text': 'field-text',
-  'tel': 'field-text',
-  'email': 'field-text',
-  'checkbox': 'field-checkbox'
+  text: `field-text`,
+  tel: `field-text`,
+  email: `field-text`,
+  checkbox: `field-checkbox`
 };
 
-const MESSAGE_CLASSNAME = '__error-message';
-const INPUT_CLASSNAME = '__input';
+const MESSAGE_CLASSNAME = `__error-message`;
+const INPUT_CLASSNAME = `__input`;
 
 const Modifier = {
-  ERROR: '--error',
-  FILLED: '--fill',
+  ERROR: `--error`,
+  FILLED: `--fill`,
 };
 
 // если есть ошибка кастомной валидации, то браузерная считается true
@@ -20,34 +20,34 @@ const isValid = (field) => {
 
 // кастомная валидация. устанавливает сообщение ошибки.
 const isTextValid = function (field) {
-  if (field.value.trim().split(' ').length !== 3) {
-    field.setCustomValidity('Введите ровно 3 слова. Введено: ' + field.value.trim().split(' ').length);
+  if (field.value.trim().split(` `).length !== 3) {
+    field.setCustomValidity(`Введите ровно 3 слова. Введено: ` + field.value.trim().split(` `).length);
     return false;
   }
-  field.setCustomValidity('');
+  field.setCustomValidity(``);
   return true;
 };
 
 // проверка поля на валидность. если есть кастомная функция валидации, то после вызывается она
 const isFieldValid = (field) => {
-  if (field.type === 'text') {
+  if (field.type === `text`) {
     return isValid(field) && isTextValid(field);
   }
   return isValid(field);
 };
 
 const getParent = (field) => {
-  return field.closest('.' + typeToClassName[field.type]);
+  return field.closest(`.` + typeToClassName[field.type]);
 };
 
 const showMessage = (field) => {
-  const messageContainer = getParent(field).querySelector('.' + typeToClassName[field.type] + MESSAGE_CLASSNAME);
+  const messageContainer = getParent(field).querySelector(`.` + typeToClassName[field.type] + MESSAGE_CLASSNAME);
   messageContainer.innerHTML = getErrorMessage(field);
 };
 
 const removeMessage = (field) => {
-  const messageContainer = getParent(field).querySelector('.' + typeToClassName[field.type] + MESSAGE_CLASSNAME);
-  messageContainer.innerHTML = '';
+  const messageContainer = getParent(field).querySelector(`.` + typeToClassName[field.type] + MESSAGE_CLASSNAME);
+  messageContainer.innerHTML = ``;
 };
 
 const toggleClass = (element, classname, force) => {
@@ -84,18 +84,18 @@ const onFieldChange = (evt) => {
 };
 
 const errorToMessages = {
-  'valueMissing': {
-    'text': 'Заполните текстовое поле',
-    'email': 'Заполните поле email',
-    'tel': 'Заполните поле для телефона',
-    'checkbox': 'Готовым быть обязательно!'
+  valueMissing: {
+    text: `Заполните текстовое поле`,
+    email: `Заполните поле email`,
+    tel: `Заполните поле для телефона`,
+    checkbox: `Готовым быть обязательно!`
   },
-  'patternMismatch': 'Пример: +7(999)999-99-99',
-  'typeMismatch': 'Пример: hello@gmail.com'
+  patternMismatch: `Пример: +7(999)999-99-99`,
+  typeMismatch: `Пример: hello@gmail.com`
 };
 
 const getErrorMessage = (field) => {
-  let message = '';
+  let message = ``;
 
   const val = field.validity;
   // если есть кастомная ошибки, то в сообщении возвращается текст этой кастомной ошибки
@@ -117,12 +117,12 @@ const Validate = function (form) {
 };
 
 Validate.prototype.init = function () {
-  this.form.setAttribute('novalidate', true);
-  this.form.addEventListener('change', onFieldChange, true);
+  this.form.setAttribute(`novalidate`, true);
+  this.form.addEventListener(`change`, onFieldChange, true);
 };
 
 Validate.prototype.checkValidity = function () {
-  const fields = this.form.querySelectorAll('input:not([type="submit"])');
+  const fields = this.form.querySelectorAll(`input:not([type="submit"])`);
   let valid = true;
   let errorFields = [];
 
@@ -148,4 +148,4 @@ Validate.prototype.checkValidity = function () {
   };
 };
 
-module.exports = Validate;
+export default Validate;

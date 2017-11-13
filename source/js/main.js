@@ -1,4 +1,4 @@
-require(`wicg-focus-ring`);
+import 'wicg-focus-ring';
 
-require('../blocks/field-text');
-require('../blocks/form');
+// import '../blocks/field-text';
+import '../blocks/form/form';
