@@ -1,3 +1,5 @@
+@lost flexbox flex;
+
 // common
 @import "../../node_modules/normalize.css/normalize";
 @import "common/mixins";
@@ -12,3 +14,16 @@
 @import "../blocks/form/form";
 @import "../blocks/field-text/field-text";
 @import "../blocks/field-checkbox/field-checkbox";
+
+
+.container {
+  lost-center: 600px;
+  // lost-flex-container: 900px;
+  outline: 1px dashed blue;
+}
+
+.block {
+  lost-column: 1/6;
+  background-color: rgba(255, 0, 0, 0.1);
+  height: 50px;
+}

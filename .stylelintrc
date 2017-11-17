@@ -36,8 +36,22 @@
     "value-list-comma-space-after": "always-single-line",
     "value-list-comma-space-before": "never",
     "value-list-max-empty-lines": 0,
-
-    "property-no-unknown": true,
+    "property-no-unknown": [true, {
+      ignoreProperties: [
+        'lost-align',
+        'lost-center',
+        'lost-column',
+        'lost-flex-container',
+        'lost-masonry-column',
+        'lost-masonry-wrap',
+        'lost-move',
+        'lost-offset',
+        'lost-row',
+        'lost-unit',
+        'lost-utility',
+        'lost-waffle',
+      ],
+    }],
     "property-no-vendor-prefix": true,
     "shorthand-property-no-redundant-values": true,
     "property-case": "lower",
@@ -126,7 +140,7 @@
     "at-rule-name-newline-after": "always-multi-line",
     "at-rule-name-space-after": "always",
     "at-rule-no-unknown": [true, {
-      "ignoreAtRules": ["mixin", "define-mixin", "include", "at-root"]
+      "ignoreAtRules": ["mixin", "define-mixin", "include", "at-root", "lost"]
     }],
     "at-rule-semicolon-newline-after": "always",
 

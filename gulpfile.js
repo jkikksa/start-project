@@ -41,6 +41,7 @@ const rollup = require(`gulp-better-rollup`);
 const resolve = require(`rollup-plugin-node-resolve`);
 const commonjs = require(`rollup-plugin-commonjs`);
 const babel = require(`rollup-plugin-babel`);
+const lost = require(`lost`);
 
 const isProduction = process.env.NODE_ENV === `production` ? true : false;
 
@@ -99,6 +100,7 @@ gulp.task(`style`, function () {
       .pipe(gulpIf(!isProduction, sourcemaps.init()))
       .pipe(sass().on(`error`, sass.logError))
       .pipe(postcss([
+        lost(),
         autoprefixer({browsers: [
           `Chrome >= 43`,
           `Firefox >= 41`,

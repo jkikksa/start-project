@@ -1,7 +1,7 @@
 {
-  "name": "Izba",
+  "name": "Start-Project",
   "version": "1.0.0",
-  "description": "Izba",
+  "description": "Start-Project",
   "scripts": {
     "build": "gulp build",
     "build:production": "cross-env NODE_ENV=production npm run build",
@@ -16,6 +16,7 @@
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^7.1.4",
+    "babel-core": "^6.26.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "browser-sync": "^2.18.13",
@@ -38,6 +39,7 @@
     "gulp-svgo": "^1.2.5",
     "gulp-svgstore": "^6.1.0",
     "gulp-uglify": "^3.0.0",
+    "lost": "^8.2.0",
     "normalize.css": "^7.0.0",
     "postcss": "^6.0.11",
     "postcss-cli": "^4.1.1",
